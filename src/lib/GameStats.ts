@@ -1,8 +1,8 @@
 import { ProtectedEventEmitter } from 'eventemitter-ts';
 import { KQStream } from './KQStream';
-import { Character, PlayerKill } from './models/KQStream';
+import { Character, PlayerKill, BerryDeposit, BerryKickIn } from './models/KQStream';
 
-type StatisticType = 'kills' | 'queen_kills' | 'warrior_kills' | 'deaths';
+type StatisticType = 'kills' | 'queen_kills' | 'warrior_kills' | 'deaths' | 'berries_sunk' | 'berries_kicked_in';
 
 export type GameStatsType = {
     [character in Character]: CharacterStatsType
@@ -48,7 +48,9 @@ export class GameStats extends ProtectedEventEmitter<Events> {
             'kills',
             'queen_kills',
             'warrior_kills',
-            'deaths'
+            'deaths',
+            'berries_sunk',
+            'berries_kicked_in'
         ];
     }
     /**
@@ -74,7 +76,9 @@ export class GameStats extends ProtectedEventEmitter<Events> {
             kills: 0,
             queen_kills: 0,
             warrior_kills: 0,
-            deaths: 0
+            deaths: 0,
+            berries_sunk: 0,
+            berries_kicked_in: 0
         };
     }
     private static get defaultGameState(): GameStateType {
@@ -153,8 +157,18 @@ export class GameStats extends ProtectedEventEmitter<Events> {
         this.stream.on('playernames', () => {
             this.resetStats();
             if (!this.hasGameStartBeenEncountered) {
+
+                // Handle player kill events
                 this.stream.on('playerKill', (kill: PlayerKill) => {
                     this.processKill(kill);
+                });
+
+                // Handle berry deposit events
+                this.stream.on('berryDeposit', (depositEvent: BerryDeposit) => {
+                    this.processBerryDeposit(depositEvent);
+                });
+                this.stream.on('berryKickIn', (berryKickIn: BerryKickIn) => {
+                    this.processBerryKickIn(berryKickIn);
                 });
             }
             this.hasGameStartBeenEncountered = true;
@@ -217,6 +231,30 @@ export class GameStats extends ProtectedEventEmitter<Events> {
         if (!GameStats.isQueen(kill.killed)) {
             this.gameState[kill.killed].isWarrior = false;
         }
+
+        this.trigger('change', filter);
+    }
+
+    private processBerryDeposit(berryDeposit: BerryDeposit) {
+
+        const filter: ChangeFilter = {
+            [berryDeposit.character]: ['berries_sunk']
+        };
+
+        this.gameStats[berryDeposit.character].berries_sunk++;
+
+        this.trigger('change', filter);
+    }
+
+    private processBerryKickIn(berryKickIn: BerryKickIn) {
+        // TODO: check if berry was kicked into the player's home hive or the enemy hive,
+        // and handle that differently.
+
+        const filter: ChangeFilter = {
+            [berryKickIn.character]: ['berries_kicked_in']
+        };
+
+        this.gameStats[berryKickIn.character].berries_kicked_in++;
 
         this.trigger('change', filter);
     }

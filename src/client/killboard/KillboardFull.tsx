@@ -21,6 +21,12 @@ const KillboardRow = (props: any) => {
       <td>
         {props.stat.deaths}
       </td>
+      <td>
+        {props.stat.berries_sunk}
+      </td>
+      <td>
+        {props.stat.berries_kicked_in}
+      </td>
     </tr>
   );
 };
@@ -36,6 +42,8 @@ class KillboardFull extends KillboardBase {
             <th>Kills</th>
             <th>Warrior Kills*</th>
             <th>Deaths</th>
+            <th>Berries Sunk</th>
+            <th>Berries Kicked In</th>
           </tr>
           <KillboardRow stat={this.state[Character.GoldQueen]} image={sprites.gold.queen} />
           <KillboardRow stat={this.state[Character.GoldStripes]} image={sprites.gold.stripes} />

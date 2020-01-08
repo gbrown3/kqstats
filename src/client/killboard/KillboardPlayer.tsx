@@ -39,6 +39,8 @@ class KillboardPlayer extends KillboardBase {
               <Stat name="Deaths" value={character.deaths} />
               <Stat name="Queen Kills" value={character.queen_kills} />
               <Stat name="Warrior Kills" value={character.warrior_kills} />
+              <Stat name="Berries Sunk" value={character.berries_sunk} />
+              <Stat name="Berries Kicked In" value={character.berries_kicked_in} />
             </div>
           </div>
         </div>
