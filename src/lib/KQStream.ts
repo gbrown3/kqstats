@@ -95,6 +95,8 @@ export class KQStream extends ProtectedEventEmitter<Events> {
             value: KQStream.normalizeValues(dataArray[2]),
         };
 
+        // console.log(message)
+        console.log(parsedMessage);
         return parsedMessage;
     }
 
