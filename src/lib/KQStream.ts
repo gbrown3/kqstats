@@ -37,12 +37,12 @@ export type GameEvents = {
     'playernames': PlayerNames,
     'playerKill': PlayerKill,
     // New events from beta 2018-08-21
-    'blessMaiden': BlessMaiden,
-    'reserveMaiden': ReserveMaiden,
-    'unreserveMaiden': UnreserveMaiden,
-    'useMaiden': UseMaiden,
-    'glance': Glance,
-    'carryFood': CarryFood,
+    'blessMaiden': BlessMaiden,         // Queen tags a gate
+    'reserveMaiden': ReserveMaiden,     // Bear gets into a gate
+    'unreserveMaiden': UnreserveMaiden, // When a bear holds the berry above their head but then leaves?
+    'useMaiden': UseMaiden,             // Bear exits a gate. Includes info about what type of gate it was (speed vs warrior)
+    'glance': Glance,                   // Happens when you bounce off of another player
+    'carryFood': CarryFood,             // Pick up berry
     'gamestart': GameStart,
     'gameend': GameEnd,
     'victory': Victory,
