@@ -40,7 +40,7 @@ class KillboardFull extends KillboardBase {
           <tr>
             <th />
             <th>Kills</th>
-            <th>Warrior Kills*</th>
+            <th>Warrior Kills</th>
             <th>Deaths</th>
             <th>Berries Sunk</th>
             <th>Berries Kicked In</th>
@@ -57,7 +57,6 @@ class KillboardFull extends KillboardBase {
           <KillboardRow stat={this.state[Character.BlueChecks]} image={sprites.blue.checks} />
           </tbody>
         </table>
-        <h6>* May be missing some warrior kills</h6>
       </div>
     );
   }
