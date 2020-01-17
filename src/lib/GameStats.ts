@@ -1,6 +1,6 @@
 import { ProtectedEventEmitter } from 'eventemitter-ts';
 import { KQStream } from './KQStream';
-import { Character, PlayerKill, BerryDeposit, BerryKickIn, CharacterType } from './models/KQStream';
+import { Character, PlayerKill, BerryDeposit, BerryKickIn, CharacterType, UseMaiden, Maiden } from './models/KQStream';
 
 type StatisticType = 'kills' | 'queen_kills' | 'warrior_kills' | 'deaths' | 'berries_sunk' | 'berries_kicked_in';
 
@@ -163,12 +163,17 @@ export class GameStats extends ProtectedEventEmitter<Events> {
                     this.processKill(kill);
                 });
 
-                // Handle berry deposit events
+                // Handle berry events
                 this.stream.on('berryDeposit', (depositEvent: BerryDeposit) => {
                     this.processBerryDeposit(depositEvent);
                 });
                 this.stream.on('berryKickIn', (berryKickIn: BerryKickIn) => {
                     this.processBerryKickIn(berryKickIn);
+                });
+
+                // Handle bear transformation events
+                this.stream.on('useMaiden', (useMaidenEvent: UseMaiden) => {
+                    this.processUseMaiden(useMaidenEvent);
                 });
             }
             this.hasGameStartBeenEncountered = true;
@@ -231,12 +236,6 @@ export class GameStats extends ProtectedEventEmitter<Events> {
         }
 
         // Set state of characters
-        // TODO: only use player kill to reset isWarrior to false
-        // Add another function that processes "useMaiden" to set isWarrior
-        // to true if that event indicates so.
-        if (!GameStats.isQueen(kill.by) && !GameStats.isMaybeSnailKill(kill)) {
-            this.gameState[kill.by].isWarrior = true;
-        }
         if (!GameStats.isQueen(kill.killed)) {
             this.gameState[kill.killed].isWarrior = false;
         }
@@ -266,5 +265,16 @@ export class GameStats extends ProtectedEventEmitter<Events> {
         this.gameStats[berryKickIn.character].berries_kicked_in++;
 
         this.trigger('change', filter);
+    }
+
+    private processUseMaiden(useMaiden: UseMaiden) {
+
+        switch (useMaiden.type) {
+            case Maiden.Warrior:
+                this.gameState[useMaiden.character].isWarrior = true
+                break;
+            default:
+                break;    
+        }
     }
 }
