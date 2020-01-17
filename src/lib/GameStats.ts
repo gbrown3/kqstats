@@ -9,8 +9,11 @@ import {
     CharacterType, 
     UseMaiden, 
     Maiden, 
-    Position 
+    Position, 
+    GameEnd
 } from './models/KQStream';
+
+var XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
 
 type StatisticType = 'kills' | 'queen_kills' | 'warrior_kills' | 'deaths' | 'berries_sunk' | 'berries_kicked_in';
 
@@ -186,7 +189,6 @@ export class GameStats extends ProtectedEventEmitter<Events> {
         this.removeListeners();
         this.stream.on('playernames', () => {
 
-            this.packageAndSendStats();
             this.resetStats();
 
             if (!this.hasGameStartBeenEncountered) {
@@ -207,6 +209,11 @@ export class GameStats extends ProtectedEventEmitter<Events> {
                 // Handle bear transformation events
                 this.stream.on('useMaiden', (useMaidenEvent: UseMaiden) => {
                     this.processUseMaiden(useMaidenEvent);
+                });
+
+                // Handle game end events
+                this.stream.on('gameend', (gameEnd: GameEnd) => {
+                    this.packageAndSendStats();
                 });
             }
             this.hasGameStartBeenEncountered = true;
@@ -267,16 +274,22 @@ export class GameStats extends ProtectedEventEmitter<Events> {
         request.open('POST', url, true);
         request.setRequestHeader(
             'Content-Type',
-            'application/x-www-form-urlencoded; charset=UTF-8'
+            'application/json;charset=UTF-8'
         );
         request.onload = function() {
             console.log('Stats sent successfully!');
         };
-        request.onerror = err => {
+        request.onerror = (err: any) => {
             console.log(
                 `Was unable to send stats to player tracking server, received the following error: ${ err }`
             );
         };
+
+        console.log('Stat payload: ');
+        console.log(payload);
+
+        console.log('Stringify payload: ');
+        console.log(JSON.stringify(payload));
 
         request.send(JSON.stringify(payload));
     }
