@@ -183,10 +183,12 @@ export class GameStats extends ProtectedEventEmitter<Events> {
     start() {
         this.resetStats();
         this.hasGameStartBeenEncountered = false;
-        this.stream.removeAllListeners('playernames');
-        this.stream.removeAllListeners('playerKill');
+        this.removeListeners();
         this.stream.on('playernames', () => {
+
+            this.packageAndSendStats();
             this.resetStats();
+
             if (!this.hasGameStartBeenEncountered) {
 
                 // Handle player kill events
@@ -235,6 +237,48 @@ export class GameStats extends ProtectedEventEmitter<Events> {
                 }
             }
         }
+    }
+
+    private removeListeners() {
+        // Tried to set this up to take the events in an array,
+        // but types got weird. 
+        // TODO: refactor so this can take an array of event types
+        // to stop listening to.
+        this.stream.removeAllListeners('playernames');
+        this.stream.removeAllListeners('playerKill');
+        this.stream.removeAllListeners('berryDeposit');
+        this.stream.removeAllListeners('berryKickIn');
+        this.stream.removeAllListeners('berryKickIn');
+        this.stream.removeAllListeners('useMaiden');
+    }
+
+    /**
+     * Groups up the game stats in a JSON object
+     * and sends to the player tracker service
+     */
+    private packageAndSendStats() {
+        let payload = {
+            'gameStats': this.gameStats,
+            'gameState': this.gameStats
+        };
+        let url = 'http://localhost:5000/stats';
+
+        let request = new XMLHttpRequest();
+        request.open('POST', url, true);
+        request.setRequestHeader(
+            'Content-Type',
+            'application/x-www-form-urlencoded; charset=UTF-8'
+        );
+        request.onload = function() {
+            console.log('Stats sent successfully!');
+        };
+        request.onerror = err => {
+            console.log(
+                `Was unable to send stats to player tracking server, received the following error: ${ err }`
+            );
+        };
+
+        request.send(JSON.stringify(payload));
     }
 
     private resetStats() {
