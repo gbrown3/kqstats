@@ -17,7 +17,8 @@ type GameStateType = {
 };
 
 type CharacterStateType = {
-    isWarrior: boolean
+    isWarrior: boolean;
+    isSpeed: boolean;
 };
 
 export type ChangeFilter = {
@@ -97,7 +98,8 @@ export class GameStats extends ProtectedEventEmitter<Events> {
     }
     private static get defaultCharacterState(): CharacterStateType {
         return {
-            isWarrior: false
+            isWarrior: false,
+            isSpeed: false
         };
     }
     private static get defaultChangeFilter(): ChangeFilter {
@@ -238,6 +240,7 @@ export class GameStats extends ProtectedEventEmitter<Events> {
         // Set state of characters
         if (!GameStats.isQueen(kill.killed)) {
             this.gameState[kill.killed].isWarrior = false;
+            this.gameState[kill.killed].isSpeed = false;
         }
 
         this.trigger('change', filter);
@@ -271,7 +274,10 @@ export class GameStats extends ProtectedEventEmitter<Events> {
 
         switch (useMaiden.type) {
             case Maiden.Warrior:
-                this.gameState[useMaiden.character].isWarrior = true
+                this.gameState[useMaiden.character].isWarrior = true;
+                break;
+            case Maiden.Speed:
+                this.gameState[useMaiden.character].isSpeed = true;    
                 break;
             default:
                 break;    
