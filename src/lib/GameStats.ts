@@ -1,6 +1,16 @@
 import { ProtectedEventEmitter } from 'eventemitter-ts';
 import { KQStream } from './KQStream';
-import { Character, PlayerKill, BerryDeposit, BerryKickIn, CharacterType, UseMaiden, Maiden } from './models/KQStream';
+import { GameConstants } from './GameConstants';
+import { 
+    Character, 
+    PlayerKill, 
+    BerryDeposit, 
+    BerryKickIn, 
+    CharacterType, 
+    UseMaiden, 
+    Maiden, 
+    Position 
+} from './models/KQStream';
 
 type StatisticType = 'kills' | 'queen_kills' | 'warrior_kills' | 'deaths' | 'berries_sunk' | 'berries_kicked_in';
 
@@ -127,6 +137,15 @@ export class GameStats extends ProtectedEventEmitter<Events> {
     }
 
     /**
+     * Returns true if the given character is on the gold team
+     * @param character The character to evaluate
+     */
+    private static isGold(character: Character): boolean {
+        // All characters on Gold team are identified by an odd number
+        return (character % 2) !== 0;
+    }
+
+    /**
      * Returns true if the kill was maybe a snail eating a drone (i.e. snail kill).
      * 
      * - On day and dusk maps, snail kills happen at `y: 20`.
@@ -144,6 +163,16 @@ export class GameStats extends ProtectedEventEmitter<Events> {
             (kill.pos.y > -20 && kill.pos.y < 60) ||
             (kill.pos.y > 460 && kill.pos.y < 540)
         );
+    }
+
+    /**
+     * Returns true if a berry that sunk into a hive at the given
+     * position went into the Gold team's hive.
+     * 
+     * @param berryPos Position of a berry that was deposited or kicked into a hive
+     */
+    private static sunkIntoGoldHive(berryPos: Position): boolean {
+        return berryPos.x < GameConstants.MAP_CENTER.x;
     }
 
     constructor(stream: KQStream) {
@@ -258,14 +287,21 @@ export class GameStats extends ProtectedEventEmitter<Events> {
     }
 
     private processBerryKickIn(berryKickIn: BerryKickIn) {
-        // TODO: check if berry was kicked into the player's home hive or the enemy hive,
-        // and handle that differently.
 
         const filter: ChangeFilter = {
             [berryKickIn.character]: ['berries_kicked_in']
         };
 
-        this.gameStats[berryKickIn.character].berries_kicked_in++;
+        let sunkIntoFriendlyHive: boolean = 
+            GameStats.isGold(berryKickIn.character) && GameStats.sunkIntoGoldHive(berryKickIn.pos)
+            || !GameStats.isGold(berryKickIn.character) && !GameStats.sunkIntoGoldHive(berryKickIn.pos);
+        
+        // TODO: save more robust stats surrounding this.
+        // Raw number of berries kicked into hives, number of berries kicked
+        // into enemy hive, and of course berries put into friendly hive as below.
+        if (sunkIntoFriendlyHive) {
+            this.gameStats[berryKickIn.character].berries_kicked_in++;
+        }
 
         this.trigger('change', filter);
     }

@@ -121,6 +121,8 @@ Set the callback for `playernames` events. `callback` should accept a single par
 
 ## Events
 
+More detail in [the official wiki](https://github.com/killer-queen-stats/kqstats/wiki)
+
 | Event Name         | When it happens |  Other Info Included  | 
 | :-------------:    | :-------------: | :-------------------: |
 | `'playernames'`    | ???             |                       |
