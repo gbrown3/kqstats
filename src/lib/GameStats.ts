@@ -265,8 +265,7 @@ export class GameStats extends ProtectedEventEmitter<Events> {
      */
     private packageAndSendStats() {
         let payload = {
-            'gameStats': this.gameStats,
-            'gameState': this.gameStats
+            'gameStats': this.gameStats
         };
         let url = 'http://localhost:5000/stats';
 
