@@ -12,6 +12,14 @@ Right now the web app only displays kills and deaths for every player. More stat
 
 This project also contains TypeScript classes in `src/lib` that are used by the web app, and that you can use in your own projects as well!
 
+## For Rallyers
+
+This service is intended to be used in tandem with [kq-player-tracking](https://github.com/gbrown3/kqstats-player-tracking), with the respective services filling the following roles:
+
+`kqstats` - runs on the same network as the KQ cabinet, captures events and turns them into stats tracked for each character, and sends the stats (and game start/end events) to the player tracking service at the end of each match.
+
+`kqstats-player-tracking` - hosted somewhere that is publicly accessible, provides a dynamic interface for people playing on the KQ cabinet to enter their name, indicate which character they're playing, and have their stats saved and tied to the name they entered.
+
 ## Usage
 
 ### Running the web app
