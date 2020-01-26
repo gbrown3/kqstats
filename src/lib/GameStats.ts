@@ -264,9 +264,6 @@ export class GameStats extends ProtectedEventEmitter<Events> {
      * and sends to the player tracker service
      */
     private packageAndSendStats() {
-        let payload = {
-            'gameStats': this.gameStats
-        };
         let url = 'http://localhost:5000/stats';
 
         let request = new XMLHttpRequest();
@@ -284,13 +281,12 @@ export class GameStats extends ProtectedEventEmitter<Events> {
             );
         };
 
+        let payload = JSON.stringify(this.gameStats);
+
         console.log('Stat payload: ');
         console.log(payload);
 
-        console.log('Stringify payload: ');
-        console.log(JSON.stringify(payload));
-
-        request.send(JSON.stringify(payload));
+        request.send(payload);
     }
 
     private resetStats() {

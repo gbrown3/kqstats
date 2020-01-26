@@ -1,84 +1,82 @@
 {
-    "gameStats": {
-        "1": {
-            "kills": 3,
-            "queen_kills": 3,
-            "warrior_kills": 0,
-            "deaths": 0,
-            "berries_sunk": 0,
-            "berries_kicked_in": 0
-        },
-        "2": {
-            "kills": 0,
-            "queen_kills": 0,
-            "warrior_kills": 0,
-            "deaths": 3,
-            "berries_sunk": 0,
-            "berries_kicked_in": 0
-        },
-        "3": {
-            "kills": 0,
-            "queen_kills": 0,
-            "warrior_kills": 0,
-            "deaths": 0,
-            "berries_sunk": 0,
-            "berries_kicked_in": 0
-        },
-        "4": {
-            "kills": 1,
-            "queen_kills": 0,
-            "warrior_kills": 0,
-            "deaths": 0,
-            "berries_sunk": 0,
-            "berries_kicked_in": 0
-        },
-        "5": {
-            "kills": 0,
-            "queen_kills": 0,
-            "warrior_kills": 0,
-            "deaths": 1,
-            "berries_sunk": 0,
-            "berries_kicked_in": 0
-        },
-        "6": {
-            "kills": 0,
-            "queen_kills": 0,
-            "warrior_kills": 0,
-            "deaths": 0,
-            "berries_sunk": 1,
-            "berries_kicked_in": 0
-        },
-        "7": {
-            "kills": 0,
-            "queen_kills": 0,
-            "warrior_kills": 0,
-            "deaths": 0,
-            "berries_sunk": 1,
-            "berries_kicked_in": 0
-        },
-        "8": {
-            "kills": 0,
-            "queen_kills": 0,
-            "warrior_kills": 0,
-            "deaths": 0,
-            "berries_sunk": 0,
-            "berries_kicked_in": 0
-        },
-        "9": {
-            "kills": 0,
-            "queen_kills": 0,
-            "warrior_kills": 0,
-            "deaths": 0,
-            "berries_sunk": 1,
-            "berries_kicked_in": 0
-        },
-        "10": {
-            "kills": 0,
-            "queen_kills": 0,
-            "warrior_kills": 0,
-            "deaths": 0,
-            "berries_sunk": 0,
-            "berries_kicked_in": 0
-        }
+    "1": {
+        "kills": 3,
+        "queen_kills": 3,
+        "warrior_kills": 0,
+        "deaths": 0,
+        "berries_sunk": 0,
+        "berries_kicked_in": 0
+    },
+    "2": {
+        "kills": 0,
+        "queen_kills": 0,
+        "warrior_kills": 0,
+        "deaths": 3,
+        "berries_sunk": 0,
+        "berries_kicked_in": 0
+    },
+    "3": {
+        "kills": 0,
+        "queen_kills": 0,
+        "warrior_kills": 0,
+        "deaths": 0,
+        "berries_sunk": 0,
+        "berries_kicked_in": 0
+    },
+    "4": {
+        "kills": 1,
+        "queen_kills": 0,
+        "warrior_kills": 0,
+        "deaths": 0,
+        "berries_sunk": 0,
+        "berries_kicked_in": 0
+    },
+    "5": {
+        "kills": 0,
+        "queen_kills": 0,
+        "warrior_kills": 0,
+        "deaths": 1,
+        "berries_sunk": 0,
+        "berries_kicked_in": 0
+    },
+    "6": {
+        "kills": 0,
+        "queen_kills": 0,
+        "warrior_kills": 0,
+        "deaths": 0,
+        "berries_sunk": 1,
+        "berries_kicked_in": 0
+    },
+    "7": {
+        "kills": 0,
+        "queen_kills": 0,
+        "warrior_kills": 0,
+        "deaths": 0,
+        "berries_sunk": 1,
+        "berries_kicked_in": 0
+    },
+    "8": {
+        "kills": 0,
+        "queen_kills": 0,
+        "warrior_kills": 0,
+        "deaths": 0,
+        "berries_sunk": 0,
+        "berries_kicked_in": 0
+    },
+    "9": {
+        "kills": 0,
+        "queen_kills": 0,
+        "warrior_kills": 0,
+        "deaths": 0,
+        "berries_sunk": 1,
+        "berries_kicked_in": 0
+    },
+    "10": {
+        "kills": 0,
+        "queen_kills": 0,
+        "warrior_kills": 0,
+        "deaths": 0,
+        "berries_sunk": 0,
+        "berries_kicked_in": 0
     }
 }
